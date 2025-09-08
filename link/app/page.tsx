@@ -5,9 +5,9 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <div
-        className="relative w-full h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8"
+        className="relative w-full min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8"
         style={{
-          background: "linear-gradient(180deg, #5BA8FB 0%, #FFF 140%)",
+          background: "linear-gradient(180deg, #5BA8FB 0%, #FFF 80%)",
         }}
       >
         <div>
@@ -39,6 +39,44 @@ export default function Home() {
         </div>
 
         {/* Features Preview */}
+        <div className="mt-16 mb-8 flex justify-center h-[200px] sm:h-[300px] md:h-[400px] lg:h-[500px] w-full">
+          <div className="flex items-center justify-center text-gray-500"></div>
+        </div>
+
+        <div className="mt-16 mb-8 flex flex-col lg:flex-row items-center gap-8 lg:gap-16 px-4">
+          <div className="flex-1 flex justify-center lg:justify-start">
+            <Image
+              src="/images/backgrounds/LandingDetail1.png"
+              alt="Landing 1"
+              width={800}
+              height={600}
+              className="max-w-full h-auto w-full max-w-[400px] sm:max-w-[500px] lg:max-w-[600px]"
+              priority
+            />
+          </div>
+          <div className="flex-1 flex flex-col justify-center lg:justify-start">
+            <h2 className="gradient-text-responsive text-center lg:text-left">
+              <span
+                className="text-blue"
+                style={{
+                  color: "#3597ff",
+                  background: "none",
+                  WebkitTextFillColor: "#3597ff",
+                  backgroundClip: "initial",
+                  WebkitBackgroundClip: "initial",
+                }}
+              >
+                여행의 시작,
+              </span>
+              <br />
+              함께하는 설렘을 더하다
+            </h2>
+            <p className="subtitle-text text-center lg:text-left mt-6">
+              여행 준비를 위한 참여자-주최자 간<br />
+              양방향 소통 플랫폼 "L:nk"
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Bottom Gradient */}

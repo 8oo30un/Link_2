@@ -24,3 +24,55 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.gradient-text {
+  color: #3597ff;
+  font-family: var(--font-inter), "Product Sans", sans-serif;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%;
+  background: linear-gradient(90deg, #040404 0%, #666 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-responsive {
+  color: #3597ff;
+  font-family: var(--font-inter), "Product Sans", sans-serif;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%;
+  background: linear-gradient(90deg, #040404 0%, #666 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-responsive .text-blue {
+  color: #3597ff !important;
+  background: none !important;
+  -webkit-text-fill-color: #3597ff !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+}
+
+/* 더 강력한 선택자로 시도 */
+h2.gradient-text-responsive span.text-blue {
+  color: #3597ff !important;
+  background: none !important;
+  -webkit-text-fill-color: #3597ff !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+}
+
+.subtitle-text {
+  color: #afb8c1;
+  font-family: var(--font-inter), "Product Sans", sans-serif;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%;
+}
