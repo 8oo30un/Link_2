@@ -47,6 +47,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
         <script src="https://cdn.lordicon.com/lordicon.js"></script>
       </head>
       <body

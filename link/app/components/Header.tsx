@@ -5,6 +5,25 @@ import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
 
+// Lord Icon 타입 정의
+/* eslint-disable @typescript-eslint/no-namespace */
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "lord-icon": React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        src?: string;
+        trigger?: string;
+        colors?: string;
+        style?: React.CSSProperties;
+      };
+    }
+  }
+}
+/* eslint-enable @typescript-eslint/no-namespace */
+
 export default function Header() {
   const { data: session } = useSession();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -81,6 +100,7 @@ export default function Header() {
                 display: "inline-block",
               }}
             >
+              {/* @ts-expect-error: lord-icon is a custom element */}
               <lord-icon
                 src="https://cdn.lordicon.com/lqxfrxad.json"
                 trigger="hover"
@@ -110,6 +130,7 @@ export default function Header() {
                         display: "inline-block",
                       }}
                     >
+                      {/* @ts-expect-error: lord-icon is a custom element */}
                       <lord-icon
                         src="https://cdn.lordicon.com/lqxfrxad.json"
                         trigger="hover"

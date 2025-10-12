@@ -2,12 +2,10 @@
 
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function ProfilePage() {
   const { data: session, update } = useSession();
-  const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: session?.user?.name || "",

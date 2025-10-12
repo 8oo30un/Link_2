@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 // Lord Icon 타입 정의
+/* eslint-disable @typescript-eslint/no-namespace */
 declare global {
   namespace JSX {
     interface IntrinsicElements {
@@ -20,6 +21,7 @@ declare global {
     }
   }
 }
+/* eslint-enable @typescript-eslint/no-namespace */
 
 // Lord Icon 컴포넌트들
 const AddIcon = ({ size = 40 }: { size?: number }) => {
@@ -36,7 +38,7 @@ const AddIcon = ({ size = 40 }: { size?: number }) => {
   }, []);
 
   return (
-    // @ts-ignore: lord-icon is a custom element
+    // @ts-expect-error: lord-icon is a custom element
     <lord-icon
       src="https://cdn.lordicon.com/hqymfzvj.json"
       trigger="hover"
@@ -60,7 +62,7 @@ const HomeIcon = ({
         display: "inline-block",
       }}
     >
-      {/* @ts-ignore: lord-icon is a custom element */}
+      {/* @ts-expect-error: lord-icon is a custom element */}
       <lord-icon
         src="https://cdn.lordicon.com/cnpvyndp.json"
         trigger="hover"
@@ -85,7 +87,7 @@ const ShareIcon = ({
         display: "inline-block",
       }}
     >
-      {/* @ts-ignore: lord-icon is a custom element */}
+      {/* @ts-expect-error: lord-icon is a custom element */}
       <lord-icon
         src="https://cdn.lordicon.com/ercyvufy.json"
         trigger="hover"
@@ -110,7 +112,7 @@ const AlarmIcon = ({
         display: "inline-block",
       }}
     >
-      {/* @ts-ignore: lord-icon is a custom element */}
+      {/* @ts-expect-error: lord-icon is a custom element */}
       <lord-icon
         src="https://cdn.lordicon.com/vspbqszr.json"
         trigger="hover"
