@@ -102,11 +102,11 @@ export default function SignupPage() {
               <Image
                 src="/images/logos/mainLogo.png"
                 alt="Link Logo"
-                width={100}
-                height={75}
+                width={50}
+                height={25}
                 className="w-auto h-auto"
               />
-              <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white whitespace-nowrap">
+              <h1 className="text-5xl sm:text-5xl font-bold text-gray-900 dark:text-white whitespace-nowrap">
                 L:nk
               </h1>
             </div>

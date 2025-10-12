@@ -49,7 +49,7 @@ export default function Home() {
               alt="Landing 1"
               width={800}
               height={600}
-              className="max-w-full h-auto w-full max-w-[400px] sm:max-w-[500px] lg:max-w-[600px]"
+              className="h-auto w-full max-w-[400px] sm:max-w-[500px] lg:max-w-[600px]"
               priority
             />
           </div>
