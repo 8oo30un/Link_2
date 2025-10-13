@@ -12,7 +12,7 @@ export default async function DashboardPage() {
     redirect("/auth/login");
   }
 
-  // 여행 목록 조회
+  // 서버에서 여행 목록 데이터 가져오기 (SSR)
   const trips = await prisma.trip.findMany({
     where: {
       user: {
@@ -26,17 +26,14 @@ export default async function DashboardPage() {
 
   return (
     <div className="px-4 py-6 sm:px-0">
-      {/* 페이지 헤더 */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          내 여행
-        </h1>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-          함께하는 설렘을 계획하고 공유하세요
-        </p>
-      </div>
+      {/* 
+        ===================================
+        페이지 헤더 영역 (선택사항)
+        필요하면 여기에 추가하세요
+        ===================================
+      */}
 
-      {/* 여행 목록 또는 빈 상태 */}
+      {/* 여행 목록 표시 or 빈 상태 UI */}
       {trips.length === 0 ? <EmptyState /> : <TripGrid trips={trips} />}
     </div>
   );
