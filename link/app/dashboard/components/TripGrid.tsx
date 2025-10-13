@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import TripCard from "./TripCard";
 
 interface Trip {
@@ -18,15 +19,54 @@ interface Trip {
 
 interface TripGridProps {
   trips: Trip[];
+  isEditMode?: boolean;
+  onTripDeleted?: (id: string) => void;
 }
 
-export default function TripGrid({ trips }: TripGridProps) {
+export default function TripGrid({
+  trips,
+  isEditMode = false,
+  onTripDeleted,
+}: TripGridProps) {
+  const [bookmarkedTrips, setBookmarkedTrips] = useState<Set<string>>(
+    new Set()
+  );
+
+  const handleBookmarkToggle = (tripId: string) => {
+    setBookmarkedTrips((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(tripId)) {
+        newSet.delete(tripId);
+      } else {
+        // 최대 5개 제한
+        if (newSet.size >= 5) {
+          alert("북마크는 최대 5개까지만 가능합니다.");
+          return prev;
+        }
+        newSet.add(tripId);
+      }
+      return newSet;
+    });
+  };
+
   return (
-    <div className="relative w-full flex justify-center">
+    <div
+      className={`relative w-full flex justify-center ${
+        isEditMode ? "z-[100]" : "z-10"
+      }`}
+    >
       {/* 가로 2개씩 그리드 배열 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {trips.map((trip) => (
-          <TripCard key={trip.id} trip={trip} />
+          <TripCard
+            key={trip.id}
+            trip={trip}
+            isEditMode={isEditMode}
+            isBookmarked={bookmarkedTrips.has(trip.id)}
+            bookmarkedCount={bookmarkedTrips.size}
+            onBookmarkToggle={() => handleBookmarkToggle(trip.id)}
+            onDelete={() => onTripDeleted?.(trip.id)}
+          />
         ))}
       </div>
     </div>
