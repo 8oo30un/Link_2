@@ -255,7 +255,7 @@ export default function Sidebar() {
       </nav>
 
       {/* 데스크톱 사이드바 - 오른쪽 중앙에 lord-icon */}
-      <aside className="hidden lg:flex fixed right-[1vw] top-1/10 flex-col items-center gap-0 bg-white dark:bg-gray-800 shadow-xl rounded-[20px] py-4 px-0 border border-[#afb8c1] dark:border-gray-700 z-40 w-[85px] h-[265px]">
+      <aside className="hidden lg:flex fixed right-[1vw] top-1/10 flex-col items-center gap-0 bg-white dark:bg-gray-800 shadow-xl rounded-[20px] py-4 px-0 border border-[#afb8c1] dark:border-gray-700 z-40 w-[85px] h-[280px]">
         {/* 메뉴 아이콘들만 */}
         {menuItems.map((item, index) => {
           const Icon = item.icon;

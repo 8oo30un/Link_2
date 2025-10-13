@@ -23,8 +23,8 @@ interface TripGridProps {
 export default function TripGrid({ trips }: TripGridProps) {
   return (
     <div className="relative w-full flex justify-center">
-      {/* 가로 2개씩 그리드 배열 - 최대 너비 제한 */}
-      <div className="flex flex-wrap gap-6 max-w-[1000px]">
+      {/* 가로 2개씩 그리드 배열 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {trips.map((trip) => (
           <TripCard key={trip.id} trip={trip} />
         ))}
