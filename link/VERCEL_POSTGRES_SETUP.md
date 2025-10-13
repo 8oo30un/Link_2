@@ -478,3 +478,4 @@ npx prisma migrate reset
 - [Vercel Postgres 문서](https://vercel.com/docs/storage/vercel-postgres)
 - [Prisma + Vercel 가이드](https://www.prisma.io/docs/guides/deployment/deployment-guides/deploying-to-vercel)
 - [NextAuth.js + Prisma](https://next-auth.js.org/adapters/prisma)
+

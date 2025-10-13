@@ -1,19 +1,29 @@
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 export default function ProfilePage() {
   const { data: session, update } = useSession();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: session?.user?.name || "",
-    email: session?.user?.email || "",
+    name: "",
+    email: "",
   });
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  // 세션이 로드되면 formData 업데이트
+  useEffect(() => {
+    if (session?.user) {
+      setFormData({
+        name: session.user.name || "",
+        email: session.user.email || "",
+      });
+    }
+  }, [session]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -77,9 +87,14 @@ export default function ProfilePage() {
         },
       });
 
-      setMessage("프로필이 성공적으로 업데이트되었습니다!");
-      setIsEditing(false);
+      // formData와 profileImage 초기화
+      setFormData({
+        name: data.user.name || "",
+        email: data.user.email || "",
+      });
       setProfileImage(null);
+      setIsEditing(false);
+      setMessage("프로필이 성공적으로 업데이트되었습니다!");
 
       setTimeout(() => setMessage(""), 3000);
     } catch (error) {
@@ -142,15 +157,27 @@ export default function ProfilePage() {
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 -mt-16">
             <div className="relative">
               <div className="w-32 h-32 rounded-full bg-white dark:bg-gray-800 p-1 shadow-lg">
-                {profileImage || session.user?.image ? (
+                {profileImage ? (
+                  // 새로 선택한 이미지 (Base64)
                   <Image
-                    src={profileImage || session.user?.image || ""}
-                    alt="Profile"
+                    src={profileImage}
+                    alt="Profile Preview"
                     width={128}
                     height={128}
                     className="w-full h-full rounded-full object-cover"
                   />
+                ) : session.user?.image ? (
+                  // 기존 이미지 (URL)
+                  <Image
+                    src={session.user.image}
+                    alt="Profile"
+                    width={128}
+                    height={128}
+                    className="w-full h-full rounded-full object-cover"
+                    unoptimized
+                  />
                 ) : (
+                  // 기본 아바타
                   <div className="w-full h-full rounded-full bg-blue-600 flex items-center justify-center">
                     <span className="text-white text-4xl font-bold">
                       {session.user?.name?.charAt(0) ||

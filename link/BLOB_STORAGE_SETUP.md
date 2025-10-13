@@ -115,3 +115,4 @@ Vercel Blob 대신 다른 서비스를 사용하려면:
 - **Supabase Storage**: 오픈소스 대안
 
 각 서비스의 SDK를 설치하고 `app/api/user/update/route.ts`의 업로드 코드만 변경하면 됩니다.
+
