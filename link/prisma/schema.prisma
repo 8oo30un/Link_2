@@ -19,6 +19,7 @@ model User {
 
   accounts Account[]
   sessions Session[]
+  trips    Trip[]
 }
 
 model Account {
@@ -54,4 +55,24 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Trip {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  destination String
+  startDate   DateTime
+  endDate     DateTime
+  coverImage  String?
+  status      String   @default("planning") // planning, ongoing, completed
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([startDate])
 }
