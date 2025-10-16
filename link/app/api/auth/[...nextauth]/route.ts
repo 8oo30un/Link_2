@@ -84,7 +84,13 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
 
-    async signIn({ user, account }) {
+    async signIn({ user, account, profile }) {
+      console.log("🔐 SignIn callback triggered:", { 
+        provider: account?.provider, 
+        email: user.email,
+        name: user.name 
+      });
+
       if (account?.provider === "google") {
         try {
           const existingUser = await prisma.user.findUnique({
@@ -92,22 +98,27 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!existingUser) {
-            await prisma.user.create({
+            const newUser = await prisma.user.create({
               data: {
                 email: user.email!,
                 name: user.name,
                 image: user.image,
               },
             });
-          } else if (!existingUser.image && user.image) {
-            // 기존 사용자의 이미지가 없으면 업데이트
+            console.log("✅ Created new user:", newUser.email);
+          } else {
+            // 기존 사용자 정보 업데이트
             await prisma.user.update({
               where: { email: user.email! },
-              data: { image: user.image },
+              data: { 
+                name: user.name || existingUser.name,
+                image: user.image || existingUser.image,
+              },
             });
+            console.log("✅ Updated existing user:", existingUser.email);
           }
         } catch (error) {
-          console.error("Error in signIn callback:", error);
+          console.error("❌ Error in signIn callback:", error);
           return false;
         }
       }
