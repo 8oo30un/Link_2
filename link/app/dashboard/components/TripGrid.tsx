@@ -55,8 +55,8 @@ export default function TripGrid({
         isEditMode ? "z-[100]" : "z-10"
       }`}
     >
-      {/* 가로 2개씩 그리드 배열 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      {/* 반응형 그리드 배열 */}
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 justify-items-center">
         {trips.map((trip) => (
           <TripCard
             key={trip.id}

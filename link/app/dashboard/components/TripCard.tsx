@@ -107,10 +107,7 @@ export default function TripCard({
           src="https://cdn.lordicon.com/nqtddedc.json"
           trigger="hover"
           state="hover-cross-3"
-          style={{
-            width: "40px",
-            height: "40px",
-          }}
+          className="w-6 h-6 sm:w-10 sm:h-10"
         />
       </div>
     );
@@ -159,10 +156,9 @@ export default function TripCard({
               : "primary:#bcbcbc,secondary:#bcbcbc"
           }
           style={{
-            width: "40px",
-            height: "40px",
             zIndex: "0",
           }}
+          className="w-6 h-6 sm:w-10 sm:h-10"
           key={`bookmark-${isMarked}`}
         />
       </div>
@@ -188,7 +184,7 @@ export default function TripCard({
 
   const CardContent = (
     <div
-      className={`relative w-[484px] h-[260px] rounded-lg overflow-hidden transition-all ${
+      className={`relative w-[330px] h-[180px] sm:w-[484px] sm:h-[260px] rounded-lg overflow-hidden transition-all ${
         isDark ? "shadow-md hover:shadow-xl" : ""
       } ${isEditMode ? "z-[100]" : "z-10"}`}
       style={{
@@ -218,11 +214,11 @@ export default function TripCard({
       )}
 
       {/* 카드 내용 */}
-      <div className="relative z-10 p-6">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+      <div className="relative z-10 p-3 sm:p-6">
+        <h3 className="text-sm sm:text-xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
           {trip.title}
         </h3>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
+        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-1 sm:mb-2">
           📍 {trip.destination}
         </p>
         <p className="text-xs text-gray-500 dark:text-gray-400">
