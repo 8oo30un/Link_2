@@ -8,13 +8,16 @@ interface Trip {
   title: string;
   description: string | null;
   destination: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   coverImage: string | null;
   status: string;
   userId: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
+  isBookmarked?: boolean;
+  members?: string[];
+  color?: string;
 }
 
 interface TripCardProps {
@@ -25,6 +28,26 @@ interface TripCardProps {
   onBookmarkToggle?: () => void;
   onDelete?: () => void;
 }
+
+// 색상별 이미지 매핑
+const imageMap: { [key: string]: string } = {
+  purple: "/images/icons/tripIcons/purple.png",
+  green: "/images/icons/tripIcons/green.png",
+  pink: "/images/icons/tripIcons/pink.png",
+  darkblue: "/images/icons/tripIcons/blue.png",
+  black: "/images/icons/tripIcons/black.png",
+  orange: "/images/icons/tripIcons/orange.png",
+  red: "/images/icons/tripIcons/red.png",
+  gray: "/images/icons/tripIcons/gray.png",
+  lightblue: "/images/icons/tripIcons/skyblue.png",
+};
+
+// 기본 배경 이미지 (다크모드/라이트모드별)
+const getPieceBackground = (isDark: boolean) => {
+  return isDark
+    ? "/images/backgrounds/TripCard_D.png"
+    : "/images/backgrounds/TripCard_L.png";
+};
 
 export default function TripCard({
   trip,
@@ -66,7 +89,7 @@ export default function TripCard({
   }, []);
 
   // 날짜 포맷팅
-  const formatDateRange = (startDate: Date, endDate: Date) => {
+  const formatDateRange = (startDate: string, endDate: string) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
     return `${start.getFullYear()}-${
@@ -76,10 +99,14 @@ export default function TripCard({
     }-${end.getDate()}`;
   };
 
-  // 배경 이미지 선택 (라이트/다크)
-  const backgroundImage = isDark
-    ? "/images/backgrounds/TripCard_D.png"
-    : "/images/backgrounds/TripCard_L.png";
+  // 색상 키 결정 (저장된 색상 또는 기본값)
+  const getColorKey = () => {
+    return trip.color || "purple";
+  };
+
+  const colorKey = getColorKey();
+  const backgroundImage = imageMap[colorKey] || imageMap.purple;
+  const pieceBackgroundImage = getPieceBackground(isDark);
 
   // 삭제 아이콘 컴포넌트
   const DeleteIcon = ({
@@ -183,79 +210,132 @@ export default function TripCard({
   };
 
   const CardContent = (
-    <div
-      className={`relative w-[330px] h-[180px] sm:w-[484px] sm:h-[260px] rounded-lg overflow-hidden transition-all ${
-        isDark ? "shadow-md hover:shadow-xl" : ""
-      } ${isEditMode ? "z-[100]" : "z-10"}`}
-      style={{
-        backgroundImage: `url('${backgroundImage}')`,
-        backgroundSize: "contain",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      {/* 편집 모드일 때 삭제 버튼 */}
-      {isEditMode && (
-        <div className="absolute top-1 right-1 z-[350]">
-          <DeleteIcon onClick={handleDelete} isDark={isDark} />
-        </div>
-      )}
+    <div className={`relative ${isEditMode ? "z-[1000]" : "z-10"}`}>
+      {/* 메인 카드 컨테이너 */}
+      <div
+        className="w-[330px] h-[180px] sm:w-[484px] sm:h-[260px] rounded-[10px] overflow-hidden relative z-0"
+        style={{
+          backgroundImage: `url('${pieceBackgroundImage}')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        {/* 카드 내용 컨테이너 */}
+        <div className="w-full h-full flex">
+          {/* 왼쪽 컨테이너 - 텍스트 정보 */}
+          <div className="flex flex-col w-[210px] sm:w-[234px] md:w-[264px] lg:w-[267px]">
+            {/* 제목 섹션 */}
+            <div className="h-[38px] flex flex-col justify-start mt-4 mx-3 sm:mx-4 md:mx-5">
+              <div className="text-[#AFB8C1] dark:text-gray-400 text-xs font-normal leading-3 font-['Product_Sans']">
+                제목
+              </div>
+              <div className="text-[#040404] dark:text-white text-sm sm:text-base md:text-lg lg:text-xl font-bold leading-[20px] sm:leading-[22px] md:leading-[24px] lg:leading-[26px] font-inter">
+                {trip.title || "제목 없음"}
+              </div>
+            </div>
 
-      {/* 일반 모드일 때 북마크 버튼 */}
-      {!isEditMode && (
-        <div className="absolute top-1 right-1 z-[350]">
-          <BookMarkIcon
-            onClick={onBookmarkToggle || (() => {})}
-            isMarked={isBookmarked}
-            totalCount={bookmarkedCount}
-            isDark={isDark}
-          />
-        </div>
-      )}
+            {/* 날짜 섹션 */}
+            <div className="h-[38px] flex flex-col justify-start mt-[6px] mx-3 sm:mx-4 md:mx-5">
+              <div className="text-[#AFB8C1] dark:text-gray-400 text-xs font-normal leading-3 font-['Product_Sans']">
+                날짜
+              </div>
+              <div className="text-[#040404] dark:text-white text-xs font-normal leading-4 font-['Product_Sans']">
+                {formatDateRange(trip.startDate, trip.endDate) ||
+                  "날짜 정보 없음"}
+              </div>
+            </div>
 
-      {/* 카드 내용 */}
-      <div className="relative z-10 p-3 sm:p-6">
-        <h3 className="text-sm sm:text-xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
-          {trip.title}
-        </h3>
-        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-1 sm:mb-2">
-          📍 {trip.destination}
-        </p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">
-          📅 {formatDateRange(trip.startDate, trip.endDate)}
-        </p>
-      </div>
-
-      {/* 삭제 확인 모달 */}
-      {showDeleteConfirm && (
-        <div
-          className="absolute inset-0 bg-black/70 z-[360] flex items-center justify-center"
-          onClick={cancelDelete}
-        >
-          <div
-            className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-2xl max-w-sm mx-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-              {trip.title} 카드를 삭제할까요?
-            </h3>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={cancelDelete}
-                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-              >
-                취소
-              </button>
-              <button
-                onClick={confirmDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-              >
-                삭제
-              </button>
+            {/* 멤버 섹션 */}
+            <div className="flex flex-col justify-start mt-[0px] mx-3 sm:mx-4 md:mx-5">
+              <div className="text-[#AFB8C1] dark:text-gray-400 text-xs font-normal leading-3 font-['Product_Sans']">
+                멤버
+              </div>
+              <div className="mt-[7px] w-full flex flex-wrap gap-[8px] sm:gap-[10px]">
+                {trip.members && trip.members.length > 0 ? (
+                  trip.members.map((member, index) => (
+                    <div
+                      key={index}
+                      className="text-[#040404] dark:text-gray-800 text-sm sm:text-base font-normal leading-4 font-['Product_Sans'] min-w-[60px] sm:min-w-[64px] h-5 sm:h-6 flex-shrink-0 rounded-[20px] bg-white dark:bg-gray-200 flex items-center justify-center px-2"
+                    >
+                      {member}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-[#040404] dark:text-gray-800 text-sm sm:text-base font-normal leading-4 font-['Product_Sans'] min-w-[60px] sm:min-w-[64px] h-5 sm:h-6 flex-shrink-0 rounded-[20px] bg-white dark:bg-gray-200 flex items-center justify-center px-2">
+                    멤버 없음
+                  </div>
+                )}
+              </div>
             </div>
           </div>
+
+          {/* 오른쪽 컨테이너 - 트립피스 이미지 */}
+          <div className="w-[217px] h-[260px] flex items-center justify-center">
+            <div
+              className="w-[170px] h-[170px] sm:w-[150px] sm:h-[150px] md:w-[180px] md:h-[180px] lg:w-[200px] lg:h-[200px] rounded-[10px] z-[1]] 
+                         translate-y-[-30px] sm:translate-y-[-8px] md:translate-y-[8px] lg:translate-y-2
+                         translate-x-[5px] sm:translate-x-[-8px] md:translate-x-[-12px] lg:translate-x-[-15px]"
+              style={{
+                backgroundImage: `url('${backgroundImage}')`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+              }}
+            />
+          </div>
         </div>
-      )}
+
+        {/* 편집 모드일 때 삭제 버튼 */}
+        {isEditMode && (
+          <div className="absolute top-1 right-1 z-[200]">
+            <DeleteIcon onClick={handleDelete} isDark={isDark} />
+          </div>
+        )}
+
+        {/* 일반 모드일 때 북마크 버튼 */}
+        {!isEditMode && (
+          <div className="absolute top-1 right-1 z-[200]">
+            <BookMarkIcon
+              onClick={onBookmarkToggle || (() => {})}
+              isMarked={isBookmarked}
+              totalCount={bookmarkedCount}
+              isDark={isDark}
+            />
+          </div>
+        )}
+
+        {/* 삭제 확인 모달 */}
+        {showDeleteConfirm && (
+          <div
+            className="absolute inset-0 bg-black/70 z-[360] flex items-center justify-center"
+            onClick={cancelDelete}
+          >
+            <div
+              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-2xl max-w-sm mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+                {trip.title} 카드를 삭제할까요?
+              </h3>
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={cancelDelete}
+                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                >
+                  취소
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                >
+                  삭제
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 

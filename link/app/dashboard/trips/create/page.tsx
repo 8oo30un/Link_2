@@ -17,7 +17,22 @@ export default function CreateTripPage() {
     destination: "",
     startDate: "",
     endDate: "",
+    color: "purple",
   });
+  const [members, setMembers] = useState<string[]>([]);
+  const [newMember, setNewMember] = useState("");
+
+  const colorOptions = [
+    { value: "purple", label: "보라", color: "bg-purple-500" },
+    { value: "green", label: "초록", color: "bg-green-500" },
+    { value: "pink", label: "핑크", color: "bg-pink-500" },
+    { value: "blue", label: "파랑", color: "bg-blue-500" },
+    { value: "black", label: "검정", color: "bg-black" },
+    { value: "orange", label: "주황", color: "bg-orange-500" },
+    { value: "red", label: "빨강", color: "bg-red-500" },
+    { value: "gray", label: "회색", color: "bg-gray-500" },
+    { value: "skyblue", label: "하늘", color: "bg-sky-500" },
+  ];
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -36,6 +51,24 @@ export default function CreateTripPage() {
         setCoverImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const addMember = () => {
+    if (newMember.trim() && !members.includes(newMember.trim())) {
+      setMembers([...members, newMember.trim()]);
+      setNewMember("");
+    }
+  };
+
+  const removeMember = (memberToRemove: string) => {
+    setMembers(members.filter((member) => member !== memberToRemove));
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      addMember();
     }
   };
 
@@ -73,6 +106,8 @@ export default function CreateTripPage() {
       formDataToSend.append("destination", formData.destination);
       formDataToSend.append("startDate", formData.startDate);
       formDataToSend.append("endDate", formData.endDate);
+      formDataToSend.append("color", formData.color);
+      formDataToSend.append("members", JSON.stringify(members));
 
       // 커버 이미지 추가
       if (coverImagePreview) {
@@ -93,6 +128,7 @@ export default function CreateTripPage() {
       const data = await res.json();
 
       if (!res.ok) {
+        console.error("API Error:", data);
         throw new Error(data.error || "여행 생성에 실패했습니다.");
       }
 
@@ -269,6 +305,82 @@ export default function CreateTripPage() {
           />
         </div>
 
+        {/* 컬러 선택 */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+            트립피스 컬러
+          </label>
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
+            {colorOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() =>
+                  setFormData({ ...formData, color: option.value })
+                }
+                className={`p-3 rounded-lg border-2 transition-all ${
+                  formData.color === option.value
+                    ? "border-blue-500 ring-2 ring-blue-200 dark:ring-blue-800"
+                    : "border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500"
+                }`}
+              >
+                <div
+                  className={`w-full h-8 rounded ${option.color} mb-2`}
+                ></div>
+                <span className="text-xs text-gray-700 dark:text-gray-300">
+                  {option.label}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 멤버 추가 */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            여행 멤버
+          </label>
+          <div className="flex gap-2 mb-3">
+            <input
+              type="text"
+              value={newMember}
+              onChange={(e) => setNewMember(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="멤버 이름을 입력하세요"
+              className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            <button
+              type="button"
+              onClick={addMember}
+              disabled={!newMember.trim() || members.includes(newMember.trim())}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-all"
+            >
+              추가
+            </button>
+          </div>
+
+          {/* 멤버 목록 */}
+          {members.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {members.map((member, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm"
+                >
+                  <span>{member}</span>
+                  <button
+                    type="button"
+                    onClick={() => removeMember(member)}
+                    className="text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* 버튼 */}
         <div className="flex gap-4 pt-4">
           <button
@@ -313,4 +425,3 @@ export default function CreateTripPage() {
     </div>
   );
 }
-

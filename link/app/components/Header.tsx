@@ -24,7 +24,11 @@ declare global {
 }
 /* eslint-enable @typescript-eslint/no-namespace */
 
-export default function Header() {
+interface HeaderProps {
+  isEditMode?: boolean;
+}
+
+export default function Header({ isEditMode = false }: HeaderProps) {
   const { data: session } = useSession();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -86,11 +90,11 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm z-30">
+    <header className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm z-[1001]">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 relative">
           {/* 왼쪽 - 햄버거 메뉴 */}
-          <div id="hamburger-menu" className="relative z-[1001]">
+          <div id="hamburger-menu" className="relative z-[1002]">
             {/* 햄버거 아이콘 */}
             <div
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -114,7 +118,7 @@ export default function Header() {
               <>
                 {/* 모바일: 버튼 아래 드롭다운, 데스크톱: 사이드 패널 */}
                 <div
-                  className="absolute md:fixed top-full md:top-0 -left-4 md:left-0 mt-2 md:mt-0 md:h-screen w-[280px] md:w-[322px] bg-white dark:bg-gray-800 border border-[#AFB8C1] dark:border-gray-700 rounded-[20px] md:rounded-tr-[20px] md:rounded-br-[20px] md:rounded-tl-none md:rounded-bl-none z-[1000] flex flex-col shadow-xl"
+                  className="absolute md:fixed top-full md:top-0 -left-4 md:left-0 mt-2 md:mt-0 md:h-screen w-[280px] md:w-[322px] bg-white dark:bg-gray-800 border border-[#AFB8C1] dark:border-gray-700 rounded-[20px] md:rounded-tr-[20px] md:rounded-br-[20px] md:rounded-tl-none md:rounded-bl-none z-[1002] flex flex-col shadow-xl"
                   style={{
                     boxShadow:
                       "0 4px 12px rgba(0, 0, 0, 0.15), 2px 2px 8px rgba(217, 217, 217, 0.3)",

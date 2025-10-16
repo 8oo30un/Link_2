@@ -123,7 +123,11 @@ const AlarmIcon = ({
   );
 };
 
-export default function Sidebar() {
+interface SidebarProps {
+  isEditMode?: boolean;
+}
+
+export default function Sidebar({ isEditMode = false }: SidebarProps) {
   const pathname = usePathname();
   const [windowWidth, setWindowWidth] = useState(0);
   const [isDark, setIsDark] = useState(false);
@@ -228,7 +232,7 @@ export default function Sidebar() {
   return (
     <>
       {/* 모바일 하단 네비게이션 */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg z-40">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg z-[1001]">
         <div className="flex items-center justify-around px-2 py-3">
           {menuItems.map((item) => {
             const isActive = pathname === item.href;
@@ -255,7 +259,7 @@ export default function Sidebar() {
       </nav>
 
       {/* 데스크톱 사이드바 - 오른쪽 중앙에 lord-icon */}
-      <aside className="hidden lg:flex fixed right-[1vw] top-1/10 flex-col items-center gap-0 bg-white dark:bg-gray-800 shadow-xl rounded-[20px] py-4 px-0 border border-[#afb8c1] dark:border-gray-700 z-40 w-[85px] h-[280px]">
+      <aside className="hidden lg:flex fixed right-[1vw] top-1/10 flex-col items-center gap-0 bg-white dark:bg-gray-800 shadow-xl rounded-[20px] py-4 px-0 border border-[#afb8c1] dark:border-gray-700 z-[1001] w-[85px] h-[280px]">
         {/* 메뉴 아이콘들만 */}
         {menuItems.map((item, index) => {
           const Icon = item.icon;

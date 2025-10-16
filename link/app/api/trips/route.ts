@@ -1,8 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../../lib/prisma";
 import { NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 
@@ -52,6 +50,19 @@ export async function POST(request: Request) {
     const startDate = formData.get("startDate") as string;
     const endDate = formData.get("endDate") as string;
     const coverImageFile = formData.get("coverImage") as File | null;
+    const members = formData.get("members") as string;
+    const color = formData.get("color") as string;
+
+    console.log("Received form data:", {
+      title,
+      description,
+      destination,
+      startDate,
+      endDate,
+      members,
+      color,
+      hasCoverImage: !!coverImageFile,
+    });
 
     // 필수 필드 검증
     if (!title || !destination || !startDate || !endDate) {
@@ -88,6 +99,8 @@ export async function POST(request: Request) {
         startDate: new Date(startDate),
         endDate: new Date(endDate),
         coverImage: coverImageUrl,
+        members: members || JSON.stringify([]),
+        color: color || "purple",
         userId: user.id,
       },
     });
