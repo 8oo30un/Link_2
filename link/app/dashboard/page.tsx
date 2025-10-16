@@ -6,10 +6,24 @@ import { useRouter } from "next/navigation";
 import TripGrid from "../dashboard/components/TripGrid";
 import EmptyState from "../dashboard/components/EmptyState";
 
+interface Trip {
+  id: string;
+  title: string;
+  description: string | null;
+  destination: string;
+  startDate: Date;
+  endDate: Date;
+  coverImage: string | null;
+  status: string;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export default function DashboardPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
-  const [trips, setTrips] = useState([]);
+  const [trips, setTrips] = useState<Trip[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -96,7 +110,7 @@ export default function DashboardPage() {
           trips={trips}
           isEditMode={isEditMode}
           onTripDeleted={(id) => {
-            setTrips(trips.filter((t: any) => t.id !== id));
+            setTrips(trips.filter((t) => t.id !== id));
           }}
         />
       )}
