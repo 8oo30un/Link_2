@@ -52,7 +52,15 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, trigger }) {
       if (user) {
-        token.id = user.id;
+        // Google OAuth에서 온 사용자의 경우 DB에서 실제 ID를 가져옴
+        if (user.email) {
+          const dbUser = await prisma.user.findUnique({
+            where: { email: user.email },
+          });
+          token.id = dbUser?.id || user.id;
+        } else {
+          token.id = user.id;
+        }
         token.email = user.email;
         token.name = user.name;
         token.picture = user.image;
@@ -85,10 +93,10 @@ export const authOptions: NextAuthOptions = {
     },
 
     async signIn({ user, account, profile }) {
-      console.log("🔐 SignIn callback triggered:", { 
-        provider: account?.provider, 
+      console.log("🔐 SignIn callback triggered:", {
+        provider: account?.provider,
         email: user.email,
-        name: user.name 
+        name: user.name,
       });
 
       if (account?.provider === "google") {
@@ -110,7 +118,7 @@ export const authOptions: NextAuthOptions = {
             // 기존 사용자 정보 업데이트
             await prisma.user.update({
               where: { email: user.email! },
-              data: { 
+              data: {
                 name: user.name || existingUser.name,
                 image: user.image || existingUser.image,
               },
