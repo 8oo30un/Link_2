@@ -144,10 +144,6 @@ export default function TripCard({
         }}
         style={{
           cursor: totalCount >= 5 && !isMarked ? "not-allowed" : "pointer",
-          filter:
-            isDark && !isMarked
-              ? "invert(1) brightness(1.6)"
-              : "invert(1) brightness(2.8)",
           display: "inline-block",
         }}
       >
@@ -159,6 +155,8 @@ export default function TripCard({
           colors={
             isMarked
               ? "primary:#5ba8fb,secondary:#5ba8fb"
+              : isDark
+              ? "primary:#ffffff,secondary:#ffffff"
               : "primary:#bcbcbc,secondary:#bcbcbc"
           }
           style={{
