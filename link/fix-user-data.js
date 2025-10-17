@@ -3,7 +3,9 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient({
   datasources: {
     db: {
-      url: process.env.DATABASE_URL || "postgres://1dd2f2aea5489dcfd88156041704f4e0d268bde76d1bc949e36bba0daa94cb4b:sk_TWzxoFFlFt5g86odmWri2@db.prisma.io:5432/postgres?sslmode=require",
+      url:
+        process.env.DATABASE_URL ||
+        "postgres://1dd2f2aea5489dcfd88156041704f4e0d268bde76d1bc949e36bba0daa94cb4b:sk_TWzxoFFlFt5g86odmWri2@db.prisma.io:5432/postgres?sslmode=require",
     },
   },
 });
@@ -13,7 +15,10 @@ async function main() {
 
   // 모든 사용자 조회
   const users = await prisma.user.findMany();
-  console.log("📊 Existing users:", users.map(u => ({ id: u.id, email: u.email, name: u.name })));
+  console.log(
+    "📊 Existing users:",
+    users.map((u) => ({ id: u.id, email: u.email, name: u.name }))
+  );
 
   // 특정 이메일로 사용자 찾기
   const targetEmail = "22100157@handong.ac.kr";
@@ -27,7 +32,8 @@ async function main() {
       data: {
         email: targetEmail,
         name: "김우현학부생",
-        image: "https://lh3.googleusercontent.com/a/ACg8ocKV26Czf3hs9lgttfmO-q2pk20YJp81bGgRx07jD5C3023emw=s96-c",
+        image:
+          "https://lh3.googleusercontent.com/a/ACg8ocKV26Czf3hs9lgttfmO-q2pk20YJp81bGgRx07jD5C3023emw=s96-c",
       },
     });
     console.log("✅ Created user:", newUser);
@@ -37,15 +43,23 @@ async function main() {
 
   // 사용자의 trips 조회
   const trips = await prisma.trip.findMany({
-    where: { userId: user?.id || (await prisma.user.findUnique({ where: { email: targetEmail } }))?.id },
+    where: {
+      userId:
+        user?.id ||
+        (
+          await prisma.user.findUnique({ where: { email: targetEmail } })
+        )?.id,
+    },
   });
   console.log("📊 User trips:", trips.length);
 
   if (trips.length === 0) {
     console.log("🌱 Adding sample trips...");
-    
-    const userId = user?.id || (await prisma.user.findUnique({ where: { email: targetEmail } }))?.id;
-    
+
+    const userId =
+      user?.id ||
+      (await prisma.user.findUnique({ where: { email: targetEmail } }))?.id;
+
     const sampleTrips = [
       {
         title: "제주도 힐링 여행",
