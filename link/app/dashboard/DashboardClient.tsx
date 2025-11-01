@@ -95,7 +95,8 @@ export default function DashboardClient({
                 trips={trips}
                 isEditMode={isEditMode}
                 onTripDeleted={(id) => {
-                  setTrips(trips.filter((t) => t.id !== id));
+                  // 상태에서 삭제된 트립 제거
+                  setTrips((prevTrips) => prevTrips.filter((t) => t.id !== id));
                 }}
               />
             )}

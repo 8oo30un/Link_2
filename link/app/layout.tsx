@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 
@@ -37,6 +37,15 @@ export const metadata: Metadata = {
       { url: "/favicon-512x512.png", sizes: "512x512", type: "image/png" },
     ],
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Link",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
 };
 
 export default function RootLayout({
@@ -46,35 +55,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link
-          rel="icon"
-          href="/favicon-16x16.png"
-          sizes="16x16"
-          type="image/png"
-        />
-        <link
-          rel="icon"
-          href="/favicon-32x32.png"
-          sizes="32x32"
-          type="image/png"
-        />
-        <link
-          rel="apple-touch-icon"
-          href="/apple-touch-icon.png"
-          sizes="180x180"
-        />
-        <link
-          rel="apple-touch-icon"
-          href="/favicon-192x192.png"
-          sizes="192x192"
-        />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Link" />
-        <meta name="theme-color" content="#000000" />
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
       >

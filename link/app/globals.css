@@ -107,3 +107,60 @@ h2.gradient-text-responsive span.text-blue {
   animation: slideUp 0.8s ease-out forwards;
   opacity: 0;
 }
+
+/* 트립 카드 이미지 3D 회전 애니메이션 - 부드러운 상하좌우 회전 */
+@keyframes rotate3D {
+  0% {
+    transform: rotateY(0deg) rotateX(0deg);
+  }
+  12.5% {
+    transform: rotateY(45deg) rotateX(5deg);
+  }
+  25% {
+    transform: rotateY(90deg) rotateX(8deg);
+  }
+  37.5% {
+    transform: rotateY(135deg) rotateX(5deg);
+  }
+  50% {
+    transform: rotateY(180deg) rotateX(0deg);
+  }
+  62.5% {
+    transform: rotateY(225deg) rotateX(-5deg);
+  }
+  75% {
+    transform: rotateY(270deg) rotateX(-8deg);
+  }
+  87.5% {
+    transform: rotateY(315deg) rotateX(-5deg);
+  }
+  100% {
+    transform: rotateY(360deg) rotateX(0deg);
+  }
+}
+
+/* 부드러운 3D 무한 회전 (15초에 한 바퀴) - 기본 속도 */
+.animate-rotate-slow {
+  animation: rotate3D 15s linear infinite;
+  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  will-change: transform;
+  perspective: 1000px;
+}
+
+/* 호버 시 더 빠른 회전 (8초에 한 바퀴) */
+.animate-rotate-slow:hover {
+  animation: rotate3D 8s linear infinite;
+}
+
+/* 모바일에서는 약간 더 빠르게 (12초에 한 바퀴) */
+@media (max-width: 640px) {
+  .animate-rotate-slow {
+    animation: rotate3D 12s linear infinite;
+  }
+
+  .animate-rotate-slow:hover {
+    animation: rotate3D 6s linear infinite;
+  }
+}
