@@ -322,3 +322,159 @@ h2.gradient-text-responsive span.text-blue {
 .dark .trip-card:hover {
   box-shadow: 0 8px 24px rgba(91, 168, 251, 0.25);
 }
+
+/* 드롭다운 아이콘 회전 애니메이션 */
+@keyframes rotateIn {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes rotateOut {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.dropdown-icon {
+  transition: transform 0.5s ease;
+}
+
+/* 커스텀 드롭다운 스타일링 */
+.custom-dropdown {
+  position: relative;
+}
+
+.custom-dropdown-button {
+  position: relative;
+  min-width: 140px;
+  max-width: 240px;
+  white-space: nowrap;
+}
+
+/* 태블릿 이상에서 min-width 증가 */
+@media (min-width: 640px) {
+  .custom-dropdown-button {
+    min-width: 160px;
+    max-width: 240px;
+  }
+}
+
+/* 데스크탑에서 max-width 증가 */
+@media (min-width: 768px) {
+  .custom-dropdown-button {
+    max-width: 320px !important;
+    min-width: 200px !important;
+  }
+
+  .custom-dropdown-button span {
+    white-space: nowrap;
+  }
+}
+
+.custom-dropdown-menu {
+  min-width: 140px;
+  max-width: 240px;
+  width: 100%;
+  position: absolute;
+}
+
+/* 태블릿 이상에서 메뉴 min-width 증가 */
+@media (min-width: 640px) {
+  .custom-dropdown-menu {
+    min-width: 160px;
+    max-width: 240px;
+  }
+}
+
+/* 데스크탑에서 메뉴 max-width 증가 */
+@media (min-width: 768px) {
+  .custom-dropdown-menu {
+    max-width: 320px !important;
+    min-width: 200px !important;
+  }
+
+  .custom-dropdown-option {
+    max-width: 320px !important;
+    min-width: 200px !important;
+    white-space: nowrap;
+  }
+}
+
+/* 드롭다운 아이콘이 항상 최상위에 표시되도록 */
+.sort-dropdown-icon-wrapper {
+  pointer-events: none;
+}
+
+.sort-dropdown-icon-wrapper lord-icon {
+  pointer-events: none;
+}
+
+/* 드롭다운 아이콘 두께 증가 */
+.dropdown-icon-thick {
+  stroke-width: 0.7;
+  stroke: currentColor !important;
+}
+
+.dropdown-icon-thick svg,
+.dropdown-icon-thick path {
+  stroke-width: 0.7 !important;
+  stroke: currentColor !important;
+}
+
+.custom-dropdown-option {
+  display: flex;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  height: 40px;
+  min-height: 40px;
+  line-height: 1.5;
+  border-radius: 20px;
+  min-width: 140px;
+  max-width: 240px;
+  white-space: nowrap;
+}
+
+/* 반응형 옵션 높이 - 버튼과 동일한 높이 */
+@media (min-width: 640px) {
+  .custom-dropdown-option {
+    height: 44px;
+    min-height: 44px;
+    min-width: 160px;
+    max-width: 240px;
+  }
+}
+
+/* 첫 번째 옵션 상단 라운드 */
+.custom-dropdown-menu button:first-child {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* 마지막 옵션 하단 라운드 */
+.custom-dropdown-menu button:last-child {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* 중간 옵션은 라운드 없음 */
+.custom-dropdown-menu button:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+/* 호버 시 라운드 처리 */
+.custom-dropdown-option:hover {
+  border-radius: 20px !important;
+}

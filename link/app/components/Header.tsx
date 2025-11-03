@@ -28,6 +28,8 @@ interface HeaderProps {
   isEditMode?: boolean;
 }
 
+// isEditMode는 현재 사용되지 않지만, 향후 기능 확장을 위해 props로 유지
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function Header({ isEditMode = false }: HeaderProps) {
   const { data: session } = useSession();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
