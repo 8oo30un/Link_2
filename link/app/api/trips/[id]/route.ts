@@ -6,8 +6,9 @@ import { NextResponse } from "next/server";
 // 여행 삭제
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user?.id) {
@@ -15,7 +16,7 @@ export async function DELETE(
   }
 
   try {
-    const tripId = params.id;
+    const tripId = id;
 
     // 트립이 존재하고 사용자가 소유자인지 확인
     const trip = await prisma.trip.findUnique({
