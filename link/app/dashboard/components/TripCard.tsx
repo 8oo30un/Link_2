@@ -213,7 +213,9 @@ export default function TripCard({
     <div className={`relative ${isEditMode ? "z-[1000]" : "z-10"}`}>
       {/* 메인 카드 컨테이너 */}
       <div
-        className="w-[330px] h-[180px] sm:w-[484px] sm:h-[260px] rounded-[10px] overflow-hidden relative z-0"
+        className={`trip-card ${
+          isEditMode ? "no-hover" : ""
+        } w-[330px] h-[180px] sm:w-[484px] sm:h-[260px] rounded-[10px] overflow-hidden relative z-0`}
         style={{
           backgroundImage: `url('${pieceBackgroundImage}')`,
           backgroundSize: "cover",
@@ -288,14 +290,14 @@ export default function TripCard({
 
         {/* 편집 모드일 때 삭제 버튼 */}
         {isEditMode && (
-          <div className="absolute top-1 right-1 z-[200]">
+          <div className="absolute top-1 right-1 z-[500]">
             <DeleteIcon onClick={handleDelete} isDark={isDark} />
           </div>
         )}
 
         {/* 일반 모드일 때 북마크 버튼 */}
         {!isEditMode && (
-          <div className="absolute top-1 right-1 z-[200]">
+          <div className="absolute top-1 right-1 z-[500]">
             <BookMarkIcon
               onClick={onBookmarkToggle || (() => {})}
               isMarked={isBookmarked}
@@ -308,7 +310,7 @@ export default function TripCard({
         {/* 삭제 확인 모달 */}
         {showDeleteConfirm && (
           <div
-            className="absolute inset-0 bg-black/70 z-[360] flex items-center justify-center"
+            className="absolute inset-0 bg-black/70 z-[600] flex items-center justify-center"
             onClick={cancelDelete}
           >
             <div

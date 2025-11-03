@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import TripGrid from "./components/TripGrid";
 import EmptyState from "./components/EmptyState";
 import Header from "../components/Header";
@@ -21,6 +21,8 @@ interface Trip {
   isBookmarked: boolean;
 }
 
+type SortOption = "created" | "upcoming";
+
 interface DashboardClientProps {
   initialTrips: Trip[];
 }
@@ -30,6 +32,47 @@ export default function DashboardClient({
 }: DashboardClientProps) {
   const [trips, setTrips] = useState<Trip[]>(initialTrips);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [sortOption, setSortOption] = useState<SortOption | "">("");
+
+  // 정렬된 trips 계산
+  const sortedTrips = useMemo(() => {
+    if (!sortOption) return trips;
+
+    const sorted = [...trips];
+
+    if (sortOption === "created") {
+      // 링크 생성순: createdAt 기준 최신순
+      return sorted.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+    } else if (sortOption === "upcoming") {
+      // 링크 가까운 순: 다가오는 일정 → 지난 일정
+      const now = new Date();
+      const upcoming = sorted.filter(
+        (trip) => new Date(trip.startDate).getTime() >= now.getTime()
+      );
+      const past = sorted.filter(
+        (trip) => new Date(trip.startDate).getTime() < now.getTime()
+      );
+
+      // 다가오는 일정: startDate 오름차순 (가까운 순)
+      upcoming.sort(
+        (a, b) =>
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+      );
+
+      // 지난 일정: startDate 내림차순 (최근 순)
+      past.sort(
+        (a, b) =>
+          new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+      );
+
+      return [...upcoming, ...past];
+    }
+
+    return sorted;
+  }, [trips, sortOption]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">

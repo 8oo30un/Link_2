@@ -164,3 +164,161 @@ h2.gradient-text-responsive span.text-blue {
     animation: rotate3D 6s linear infinite;
   }
 }
+
+/* 헤더 메뉴 항목 그라디언트 호버 애니메이션 */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 헤더 메뉴 항목 호버 그라디언트 효과 */
+.header-menu-item {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  isolation: isolate;
+  z-index: 1;
+}
+
+.header-menu-item * {
+  position: relative;
+  z-index: 1;
+}
+
+.header-menu-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(91, 168, 251, 0.1) 0%,
+    rgba(137, 194, 255, 0.15) 25%,
+    rgba(91, 168, 251, 0.1) 50%,
+    rgba(137, 194, 255, 0.15) 75%,
+    rgba(91, 168, 251, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.header-menu-item:hover::before {
+  opacity: 1;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* 다크모드용 그라디언트 */
+.dark .header-menu-item::before {
+  background: linear-gradient(
+    90deg,
+    rgba(91, 168, 251, 0.15) 0%,
+    rgba(137, 194, 255, 0.2) 25%,
+    rgba(91, 168, 251, 0.15) 50%,
+    rgba(137, 194, 255, 0.2) 75%,
+    rgba(91, 168, 251, 0.15) 100%
+  );
+}
+
+/* 트립 카드 호버 그라디언트 애니메이션 */
+.trip-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+/* 편집 모드일 때 호버 효과 비활성화 */
+.trip-card.no-hover:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.trip-card.no-hover:hover::before {
+  opacity: 0;
+  animation: none;
+}
+
+.trip-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(91, 168, 251, 0.08) 0%,
+    rgba(137, 194, 255, 0.12) 25%,
+    rgba(91, 168, 251, 0.08) 50%,
+    rgba(137, 194, 255, 0.12) 75%,
+    rgba(91, 168, 251, 0.08) 100%
+  );
+  background-size: 200% 200%;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.trip-card:hover::before {
+  opacity: 1;
+  animation: gradient-shift-diagonal 4s ease-in-out infinite;
+}
+
+.trip-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(91, 168, 251, 0.15);
+}
+
+/* 대각선 그라디언트 애니메이션 */
+@keyframes gradient-shift-diagonal {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+/* 트립 카드 내부 콘텐츠가 그라디언트 위에 표시되도록 */
+.trip-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* 북마크 및 삭제 버튼이 항상 최상위에 표시되도록 */
+.trip-card > div[class*="absolute"] {
+  z-index: 500 !important;
+  position: absolute !important;
+}
+
+/* 다크모드용 트립 카드 그라디언트 */
+.dark .trip-card::before {
+  background: linear-gradient(
+    135deg,
+    rgba(91, 168, 251, 0.12) 0%,
+    rgba(137, 194, 255, 0.18) 25%,
+    rgba(91, 168, 251, 0.12) 50%,
+    rgba(137, 194, 255, 0.18) 75%,
+    rgba(91, 168, 251, 0.12) 100%
+  );
+}
+
+.dark .trip-card:hover {
+  box-shadow: 0 8px 24px rgba(91, 168, 251, 0.25);
+}

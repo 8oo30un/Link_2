@@ -149,20 +149,20 @@ export default function Header({ isEditMode = false }: HeaderProps) {
                     <Link
                       href="/dashboard/profile"
                       onClick={() => setIsDropdownOpen(false)}
-                      className="bg-white dark:bg-gray-800 px-5 py-3 rounded-[20px] text-left min-h-[44px] flex items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 hover:border hover:border-[#afb8c1] transition-all text-gray-900 dark:text-white text-base active:scale-95"
+                      className="header-menu-item bg-white dark:bg-gray-800 px-5 py-3 rounded-[20px] text-left min-h-[44px] flex items-center cursor-pointer transition-all text-gray-900 dark:text-white text-base active:scale-95"
                     >
                       마이 페이지
                     </Link>
                     <Link
                       href="/dashboard"
                       onClick={() => setIsDropdownOpen(false)}
-                      className="bg-white dark:bg-gray-800 px-5 py-3 rounded-[20px] text-left min-h-[44px] flex items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 hover:border hover:border-[#afb8c1] transition-all text-gray-900 dark:text-white text-base active:scale-95"
+                      className="header-menu-item bg-white dark:bg-gray-800 px-5 py-3 rounded-[20px] text-left min-h-[44px] flex items-center cursor-pointer transition-all text-gray-900 dark:text-white text-base active:scale-95"
                     >
                       진행 중 링크
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="bg-white dark:bg-gray-800 px-5 py-3 rounded-[20px] text-left min-h-[44px] flex items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 hover:border hover:border-[#afb8c1] transition-all text-gray-900 dark:text-white text-base active:scale-95"
+                      className="header-menu-item bg-white dark:bg-gray-800 px-5 py-3 rounded-[20px] text-left min-h-[44px] flex items-center cursor-pointer transition-all text-gray-900 dark:text-white text-base active:scale-95"
                     >
                       로그아웃
                     </button>
